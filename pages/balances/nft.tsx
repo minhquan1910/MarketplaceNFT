@@ -3,6 +3,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
 import { INFTBalances } from 'components/templates/balances/NFT/types';
 import { NFTBalances } from 'components/templates/balances/NFT';
+import constants from '../../constants';
 import Moralis from 'moralis';
 
 const ERC20: NextPage<INFTBalances> = (props) => {
@@ -22,12 +23,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { props: { error: 'Connect your wallet first' } };
   }
 
-  const balances = await Moralis.EvmApi.account.getNFTs({
+  const balances = await Moralis.EvmApi.account.getNFTsForContract({
     address: session?.user.address,
     chain: process.env.APP_CHAIN_ID,
+    tokenAddress: constants.NFT_ADDR,
   });
-
-  // (balances.result).filter((balance)=> balance.result.)
 
   return {
     props: {

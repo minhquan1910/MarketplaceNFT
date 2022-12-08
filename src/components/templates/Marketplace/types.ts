@@ -1,7 +1,8 @@
 import { EvmNftContractType } from '@moralisweb3/evm-utils';
 import { MoralisDataObjectValue } from '@moralisweb3/core';
+import { BigNumber } from 'ethers';
 
-export type TNFTBalance = {
+export type TNFTMarketplace = {
   tokenAddress: string;
   chain: string | number;
   ownerOf: string | undefined;
@@ -17,9 +18,19 @@ export type TNFTBalance = {
   lastMetadataSync?: Date | undefined;
   lastTokenUriSync?: Date | undefined;
   amount?: number | undefined;
-  price?: number | undefined;
 };
 
-export interface INFTBalances {
-  balances?: TNFTBalance[];
+export type TNFTData = {
+  0: BigNumber | undefined;
+  1: string | undefined;
+  2: BigNumber | undefined;
+  3: string | undefined;
+  4: string | undefined;
+  5: BigNumber | undefined;
+  6: boolean;
+};
+
+export interface INFTMarketplace {
+  items?: TNFTMarketplace[];
+  data?: TNFTData[];
 }
