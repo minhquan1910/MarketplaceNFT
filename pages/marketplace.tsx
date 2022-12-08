@@ -1,9 +1,9 @@
-import { NextPage, GetServerSideProps } from 'next';
 import Moralis from 'moralis';
-import { Default } from 'components/layouts/Default';
-import { INFTMarketplace } from 'components/templates/Marketplace/types';
-import { Marketplace } from 'components/templates/Marketplace';
 import constants from '../constants';
+import { NextPage, GetServerSideProps } from 'next';
+import { Default } from 'components/layouts/Default';
+import { Marketplace } from 'components/templates/Marketplace';
+import { INFTMarketplace } from 'components/templates/Marketplace/types';
 
 const MarketPlacePage: NextPage<INFTMarketplace> = (props) => {
   return (
