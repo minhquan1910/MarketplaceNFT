@@ -1,22 +1,33 @@
 /* eslint-env browser */
-import { Box, HStack, Image, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
-import { Eth } from '@web3uikit/icons';
-import React, { FC, useEffect, useState } from 'react';
-import { resolveIPFS } from 'utils/resolveIPFS';
-import { IITEMCard } from './types';
 import { Button } from 'antd';
+import { ethers, Signer } from 'ethers';
+import { IITEMCard } from './types';
+import { Eth } from '@web3uikit/icons';
 import constants from '../../../../constants';
-import { ethers } from 'ethers';
+import { resolveIPFS } from 'utils/resolveIPFS';
+import React, { FC, useEffect, useState } from 'react';
+import { Box, HStack, Image, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
+import { useSigner } from 'wagmi';
 
 const ItemCard: FC<IITEMCard> = ({ contractType, name, symbol, metadata, tokenId }) => {
   const bgColor = useColorModeValue('none', 'gray.700');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const descBgColor = useColorModeValue('gray.100', 'gray.600');
+  const { data: signer } = useSigner();
   const marketplace = new ethers.Contract(constants.MRKPLACE_ADDR, constants.MRKPLACE_ABI, constants.PROVIDER);
+  const marketplaceSigner = new ethers.Contract(constants.MRKPLACE_ADDR, constants.MRKPLACE_ABI, signer as Signer);
   const [price, setPrice] = useState('1');
 
   const handleSell = async () => {
-    console.log(tokenId);
+    const itemId = await marketplace.getItemId(tokenId);
+    console.log('price', price);
+    console.log('NFT addr ', constants.NFT_ADDR);
+    console.log('Item id', itemId.toString());
+    const priceBig = ethers.utils.parseUnits(price, 18);
+    console.log('Price Big ', priceBig);
+    const txSell = await marketplaceSigner.createMarketSale(constants.NFT_ADDR, itemId, { value: priceBig });
+    const notify = await txSell.wait();
+    console.log('Sell Notify ', notify);
   };
 
   async function loadPrice() {
