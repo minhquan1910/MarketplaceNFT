@@ -6,12 +6,12 @@ import { Button, Text, HStack, Avatar, useToast } from '@chakra-ui/react';
 import { getEllipsisTxt } from 'utils/format';
 
 const ConnectButton = () => {
-  const { connectAsync } = useConnect({ connector: new InjectedConnector() });
-  const { disconnectAsync } = useDisconnect();
-  const { isConnected } = useAccount();
-  const { signMessageAsync } = useSignMessage();
   const toast = useToast();
   const { data } = useSession();
+  const { isConnected } = useAccount();
+  const { disconnectAsync } = useDisconnect();
+  const { signMessageAsync } = useSignMessage();
+  const { connectAsync } = useConnect({ connector: new InjectedConnector() });
 
   const handleAuth = async () => {
     if (isConnected) {
