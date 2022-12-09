@@ -1,7 +1,7 @@
 /* eslint-env browser */
 import Link from 'next/link';
 import { useSigner } from 'wagmi';
-import { INFTCard } from './types';
+import { INFTCard, ErrorContract } from './types';
 import { Eth } from '@web3uikit/icons';
 import { ethers, Signer } from 'ethers';
 import styles from './NFTCard.module.css';
@@ -10,7 +10,7 @@ import { Button, Input, Modal } from 'antd';
 import constants from '../../../../constants';
 import { resolveIPFS } from 'utils/resolveIPFS';
 import { getExplorer } from '../../../../helpers/networks';
-import { successModal } from '../../../../helpers/modal';
+import { successModal, failureModal } from '../../../../helpers/modal';
 import { Box, HStack, Image, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 
 const NFTCard: FC<INFTCard> = ({ amount, contractType, name, symbol, metadata, chain, tokenAddress, tokenId }) => {
@@ -48,7 +48,12 @@ const NFTCard: FC<INFTCard> = ({ amount, contractType, name, symbol, metadata, c
       successModal('Success', 'List NFT succesfully');
     } catch (err) {
       setLoading(false);
-      console.log('Error', err);
+      const { message } = err as ErrorContract;
+      if (message === 'MetaMask Tx Signature: User denied transaction signature.') {
+        failureModal('Error', 'User denied transaction');
+      } else {
+        failureModal('Error', 'Some thing went wrong');
+      }
     }
     setLoading(false);
   };
