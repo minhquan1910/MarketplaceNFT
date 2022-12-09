@@ -1,24 +1,26 @@
 /* eslint-env browser */
-import { Box, HStack, Image, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
-import { Eth } from '@web3uikit/icons';
-import React, { FC, useState } from 'react';
-import { resolveIPFS } from 'utils/resolveIPFS';
-import { INFTCard } from './types';
-import { Button, Input, Modal } from 'antd';
 import Link from 'next/link';
-import { getExplorer } from '../../../../helpers/networks';
-import constants from '../../../../constants';
 import { useSigner } from 'wagmi';
-import styles from './NFTCard.module.css';
+import { INFTCard } from './types';
+import { Eth } from '@web3uikit/icons';
 import { ethers, Signer } from 'ethers';
+import styles from './NFTCard.module.css';
+import React, { FC, useState } from 'react';
+import { Button, Input, Modal } from 'antd';
+import constants from '../../../../constants';
+import { resolveIPFS } from 'utils/resolveIPFS';
+import { getExplorer } from '../../../../helpers/networks';
+import { successModal } from '../../../../helpers/modal';
+import { Box, HStack, Image, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 
 const NFTCard: FC<INFTCard> = ({ amount, contractType, name, symbol, metadata, chain, tokenAddress, tokenId }) => {
   const bgColor = useColorModeValue('none', 'gray.700');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const descBgColor = useColorModeValue('gray.100', 'gray.600');
   const { data: signer } = useSigner();
-  const [visible, setVisibility] = useState<boolean>(false);
   const [price, setPrice] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [visible, setVisibility] = useState<boolean>(false);
 
   const nftCollection = new ethers.Contract(constants.NFT_ADDR, constants.NFT_ABI, signer as Signer);
   const marketPlace = new ethers.Contract(constants.MRKPLACE_ADDR, constants.MRKPLACE_ABI, signer as Signer);
@@ -34,14 +36,21 @@ const NFTCard: FC<INFTCard> = ({ amount, contractType, name, symbol, metadata, c
 
   const handleSell = async () => {
     setVisibility(false);
-    console.log('Input', price);
-    console.log('Signer ', signer);
-    const approveFunc = await nftCollection.approve(constants.MRKPLACE_ADDR, tokenId);
-    const tx = await approveFunc.wait();
-    console.log('Approve tx ', tx);
-    const createItem = await marketPlace.createMarketItem(constants.NFT_ADDR, tokenId, price);
-    const itemTx = await createItem.wait();
-    console.log('Create Item Tx', itemTx);
+    setLoading(true);
+    try {
+      const approveFunc = await nftCollection.approve(constants.MRKPLACE_ADDR, tokenId);
+      const tx = await approveFunc.wait();
+      console.log('Approve tx ', tx.events);
+      const createItem = await marketPlace.createMarketItem(constants.NFT_ADDR, tokenId, price);
+      const itemTx = await createItem.wait();
+      console.log('Create Item Tx', itemTx.events);
+      setLoading(false);
+      successModal('Success', 'List NFT succesfully');
+    } catch (err) {
+      setLoading(false);
+      console.log('Error', err);
+    }
+    setLoading(false);
   };
 
   const listModal = (
@@ -121,7 +130,7 @@ const NFTCard: FC<INFTCard> = ({ amount, contractType, name, symbol, metadata, c
           <Link href={`${getExplorer(chain)}address/${tokenAddress}`} target="_blank">
             Tx info
           </Link>
-          <Button onClick={handleSellClick}>
+          <Button onClick={handleSellClick} loading={loading}>
             <span>List</span>
           </Button>
         </SimpleGrid>
