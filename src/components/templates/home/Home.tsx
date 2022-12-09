@@ -1,63 +1,28 @@
-import { CheckCircleIcon, SettingsIcon } from '@chakra-ui/icons';
-import { Heading, VStack, List, ListIcon, ListItem } from '@chakra-ui/react';
+
+import { Heading, Box, Image, Stack, Button, Input } from '@chakra-ui/react';
+import styles from "./Home.module.css"
 
 const Home = () => {
   return (
-    <VStack w={'full'}>
-      <Heading size="md" marginBottom={6}>
-        Ethereum Boilerplate
-      </Heading>
-      <List spacing={3}>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          Moralis authentication
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          Display Transactions
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          Display ERC20 transfers
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          Display ERC20 balances
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          Display NFT balances
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          Display NFT transfers
-        </ListItem>
-        <ListItem>
-          <ListIcon as={SettingsIcon} color="green.500" />
-          Multichain Support
-        </ListItem>
-        <ListItem>
-          <ListIcon as={SettingsIcon} color="green.500" />
-          Adding explorer links to balances, transactions ...
-        </ListItem>
-        <ListItem>
-          <ListIcon as={SettingsIcon} color="green.500" />
-          Better responsive design
-        </ListItem>
-        <ListItem>
-          <ListIcon as={SettingsIcon} color="green.500" />
-          Rainbowkit integration
-        </ListItem>
-        <ListItem>
-          <ListIcon as={SettingsIcon} color="green.500" />
-          Using Moralis from client-side
-        </ListItem>
-        <ListItem>
-          <ListIcon as={SettingsIcon} color="green.500" />
-          ... and more
-        </ListItem>
-      </List>
-    </VStack>
+<div >
+
+
+    <Box border='1px solid white' borderRadius="10px" height="460px" className={styles.box} maxW="400px">
+<Image src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      alt='Green double couch with wooden legs'
+      borderRadius='lg'>
+</Image>
+<Stack mt='6' spacing='3'>
+      <Heading  size='md'>SPORTOFI BOX</Heading>
+      <div className={styles.btn}>
+      <Input textAlign={"center"} maxW="70px" value={0} />
+      </div>
+      <div className={styles.btn}>
+      <Button>UNBOX</Button>
+      </div>   
+    </Stack> 
+       </Box>
+        </div>
   );
 };
 
