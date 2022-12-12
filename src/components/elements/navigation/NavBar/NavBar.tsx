@@ -3,8 +3,6 @@ import { Button, Flex, HStack, IconButton } from '@chakra-ui/react';
 
 import NextLink from 'next/link';
 import { useState } from 'react';
-import { NavItem } from '../NavItem';
-import NAV_LINKS from './paths';
 
 const NavBar = () => {
   const [display, changeDisplay] = useState('none');
@@ -37,6 +35,11 @@ const NavBar = () => {
                 Mint
               </Button>
             </NextLink>
+            <NextLink href="/staking" passHref>
+              <Button as="a" variant="ghost" aria-label="Staking" my="5" w="100%">
+                Staking
+              </Button>
+            </NextLink>
           </Flex>
           <IconButton
             aria-label="Open Menu"
@@ -48,7 +51,6 @@ const NavBar = () => {
           ></IconButton>
         </Flex>
 
-    
         <Flex
           w="100vw"
           bgColor="gray.500"
@@ -62,7 +64,14 @@ const NavBar = () => {
           display={display}
         >
           <Flex justify="flex-end">
-            <IconButton mt={2} mr={2} aria-label="Close Menu" size="lg" icon={<CloseIcon />} onClick={() => changeDisplay('none')} />
+            <IconButton
+              mt={2}
+              mr={2}
+              aria-label="Close Menu"
+              size="lg"
+              icon={<CloseIcon />}
+              onClick={() => changeDisplay('none')}
+            />
           </Flex>
           <Flex flexDir="column" align="center">
             <NextLink href="/" passHref>
@@ -87,6 +96,11 @@ const NavBar = () => {
             <NextLink href="/mint" passHref>
               <Button as="a" variant="ghost" aria-label="Mint" my="5" w="100%">
                 Mint
+              </Button>
+            </NextLink>
+            <NextLink href="/staking" passHref>
+              <Button as="a" variant="ghost" aria-label="Staking" my="5" w="100%">
+                Staking
               </Button>
             </NextLink>
           </Flex>
