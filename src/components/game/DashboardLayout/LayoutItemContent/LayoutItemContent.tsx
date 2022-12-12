@@ -8,7 +8,7 @@ const LayoutItemContent = () => {
 
   const flag = false;
 
-  const [isHitToDeadline, setIsHitToDeadline] = useState(flag);
+  const [isHitToDeadline] = useState(flag);
 
   return (
     <div className={clsx([styles.layoutItem])}>
