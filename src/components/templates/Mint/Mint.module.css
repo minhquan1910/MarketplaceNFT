@@ -1,0 +1,83 @@
+.box {
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+.btn {
+  margin-right: auto;
+  margin-left: auto;
+}
+.title {
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+}
+.subTitle {
+  text-align: center;
+}
+.subTitle span {
+  background: -webkit-linear-gradient(180deg, #27aae1, #617ad3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.number {
+  font-size: 30px;
+  font-weight: 700;
+}
+.attr {
+  font-size: 18px;
+}
+.desc {
+  font-size: 20px;
+  color: #fff;
+  padding: 10px 10%;
+  text-align: center;
+}
+.content {
+  display: flex;
+  justify-content: center;
+}
+.content :global(.ant-row) {
+  padding: 10px 20px;
+  border: 1px solid #adadad;
+  border-radius: 10px;
+  margin: 16px;
+}
+.title {
+  font-size: 24px;
+  font-weight: 700;
+}
+.byAuthor {
+  font-size: 16px;
+  /* font-weight: 700; */
+}
+
+.byAuthor span {
+  color: #27aae1;
+}
+.content1 {
+  display: flex;
+  flex-direction: column;
+}
+.exploreBtn:global(.ant-btn) {
+  background: #ffffff;
+  border-radius: 10px;
+  width: 136px;
+  margin-right: auto;
+  margin-left: auto;
+  height: auto;
+  border-color: #0e0a35;
+  margin-bottom: 40px;
+}
+.content1 input {
+  width: 20%;
+  height: 25px;
+  text-align: center;
+  margin: 10px;
+  color: rgb(255, 153, 0);
+  background: #fff;
+
+  border: 1px solid rgb(14, 10, 53);
+  border-radius: 10px;
+  font-size: medium;
+}
