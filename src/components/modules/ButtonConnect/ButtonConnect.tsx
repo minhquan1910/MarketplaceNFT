@@ -1,15 +1,11 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import { Button, Text, HStack, Avatar, useToast } from '@chakra-ui/react';
-import { getEllipsisTxt } from 'utils/format';
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { signIn, signOut } from 'next-auth/react';
+import { useAccount, useDisconnect } from 'wagmi';
+import { Text, HStack, Avatar } from '@chakra-ui/react';
 import { useEffect } from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const ButtonConnect = () => {
-  const toast = useToast();
-  const { data } = useSession();
   const { disconnect } = useDisconnect();
-  const { connect } = useConnect();
   const { address, isConnected } = useAccount();
   async function signInNext() {
     console.log('Address', address);
@@ -21,41 +17,56 @@ const ButtonConnect = () => {
     }
   }, [isConnected]);
 
-  const handleAuth = async () => {
-    if (isConnected) {
-      await disconnect();
-    }
-    try {
-      connect({ connector: new MetaMaskConnector() });
-    } catch (e) {
-      toast({
-        title: 'Oops, something is wrong...',
-        description: (e as { message: string })?.message,
-        status: 'error',
-        position: 'top-right',
-        isClosable: true,
-      });
-    }
-  };
-
   const handleDisconnect = async () => {
     await disconnect();
     signOut({ redirect: false });
   };
 
-  if (data?.user) {
-    return (
-      <HStack onClick={handleDisconnect} cursor={'pointer'}>
-        <Avatar size="xs" />
-        <Text fontWeight="medium">{getEllipsisTxt(data.user.address)}</Text>
-      </HStack>
-    );
-  }
-
   return (
-    <Button size="sm" onClick={handleAuth} colorScheme="blue">
-      Connect Wallet
-    </Button>
+    <ConnectButton.Custom>
+      {({ account, chain, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
+        // Note: If your app doesn't use authentication, you
+        // can remove all 'authenticationStatus' checks
+        const ready = mounted && authenticationStatus !== 'loading';
+        const connected =
+          ready && account && chain && (!authenticationStatus || authenticationStatus === 'authenticated');
+        return (
+          <div
+            {...(!ready && {
+              'aria-hidden': true,
+              style: {
+                opacity: 0,
+                pointerEvents: 'none',
+                userSelect: 'none',
+              },
+            })}
+          >
+            {(() => {
+              if (!connected) {
+                return (
+                  <button onClick={openConnectModal} type="button">
+                    Connect Wallet
+                  </button>
+                );
+              }
+              if (chain.unsupported) {
+                return (
+                  <button onClick={openChainModal} type="button">
+                    Wrong network
+                  </button>
+                );
+              }
+              return (
+                <HStack onClick={handleDisconnect} cursor={'pointer'}>
+                  <Avatar size="xs" />
+                  <Text fontWeight="medium">{account.displayName}</Text>
+                </HStack>
+              );
+            })()}
+          </div>
+        );
+      }}
+    </ConnectButton.Custom>
   );
 };
 
