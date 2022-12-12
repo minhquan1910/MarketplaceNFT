@@ -5,7 +5,7 @@ import { getEllipsisTxt } from 'utils/format';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { useEffect } from 'react';
 
-const ConnectButton = () => {
+const ButtonConnect = () => {
   const toast = useToast();
   const { data } = useSession();
   const { disconnect } = useDisconnect();
@@ -59,4 +59,4 @@ const ConnectButton = () => {
   );
 };
 
-export default ConnectButton;
+export default ButtonConnect;

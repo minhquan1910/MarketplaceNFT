@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { createClient, configureChains, WagmiConfig, defaultChains } from 'wagmi';
+import { createClient, configureChains, WagmiConfig, defaultChains, chain, Chain } from 'wagmi';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 
@@ -12,8 +12,14 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import '@rainbow-me/rainbowkit/styles.css';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import constants from '../constants';
 
-const { provider, webSocketProvider, chains } = configureChains(defaultChains, [publicProvider()]);
+const { provider, webSocketProvider, chains } = configureChains(
+  [constants.CHAIN.bscChain as Chain],
+  [publicProvider()],
+);
 const emotionCache = createCache({
   key: 'emotion-css-cache',
   prepend: true,
@@ -58,9 +64,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <CacheProvider value={emotionCache}>
       <ChakraProvider resetCSS theme={theme}>
         <WagmiConfig client={client}>
-          <SessionProvider session={pageProps.session} refetchInterval={0}>
-            <Component {...pageProps} />
-          </SessionProvider>
+          <RainbowKitProvider chains={chains}>
+            <SessionProvider session={pageProps.session} refetchInterval={0}>
+              <Component {...pageProps} />
+            </SessionProvider>
+          </RainbowKitProvider>
         </WagmiConfig>
       </ChakraProvider>
     </CacheProvider>
