@@ -36,10 +36,10 @@ const NAV_LINKS: ISubNav[] = [
         href: '/balances/nft',
         logo: 'pack',
       },
-      
     ],
   },
-  
+
+
 ];
 
 export default NAV_LINKS;

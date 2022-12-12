@@ -1,32 +1,32 @@
-import { InjectedConnector } from 'wagmi/connectors/injected';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
-import apiPost from 'utils/apiPost';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { Button, Text, HStack, Avatar, useToast } from '@chakra-ui/react';
 import { getEllipsisTxt } from 'utils/format';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { useEffect } from 'react';
 
 const ConnectButton = () => {
   const toast = useToast();
   const { data } = useSession();
-  const { isConnected } = useAccount();
-  const { disconnectAsync } = useDisconnect();
-  const { signMessageAsync } = useSignMessage();
-  const { connectAsync } = useConnect({ connector: new InjectedConnector() });
+  const { disconnect } = useDisconnect();
+  const { connect } = useConnect();
+  const { address, isConnected } = useAccount();
+  async function signInNext() {
+    console.log('Address', address);
+    await signIn('credentials', { address, redirect: false });
+  }
+  useEffect(() => {
+    if (isConnected === true) {
+      signInNext();
+    }
+  }, [isConnected]);
 
   const handleAuth = async () => {
     if (isConnected) {
-      await disconnectAsync();
+      await disconnect();
     }
     try {
-      const { account, chain } = await connectAsync();
-
-      const userData = { address: account, chain: chain.id, network: 'evm' };
-
-      const { message } = await apiPost('/auth/request-message', userData);
-
-      const signature = await signMessageAsync({ message });
-
-      await signIn('credentials', { message, signature, callbackUrl: '/' });
+      connect({ connector: new MetaMaskConnector() });
     } catch (e) {
       toast({
         title: 'Oops, something is wrong...',
@@ -39,8 +39,8 @@ const ConnectButton = () => {
   };
 
   const handleDisconnect = async () => {
-    await disconnectAsync();
-    signOut({ callbackUrl: '/' });
+    await disconnect();
+    signOut({ redirect: false });
   };
 
   if (data?.user) {
