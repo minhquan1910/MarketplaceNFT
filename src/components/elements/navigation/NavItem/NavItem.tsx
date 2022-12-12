@@ -5,7 +5,7 @@ import { ISubNav } from '../SubNav/SubNav';
 import { SubNav } from '../SubNav';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-
+import styles from "./NavItem.module.css"
 const NavItem: FC<ISubNav> = ({ label, children, href }) => {
   const linkColor = useColorModeValue('gray.600', 'gray.400');
   const linkActiveColor = useColorModeValue('gray.800', 'white');
@@ -15,7 +15,7 @@ const NavItem: FC<ISubNav> = ({ label, children, href }) => {
   return (
     <Popover trigger={'hover'} placement={'bottom-start'}>
       <PopoverTrigger>
-        <Box>
+        <Box className={styles.subNav}>
           <Box
             fontSize={15}
             fontWeight={500}

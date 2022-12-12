@@ -1,15 +1,7 @@
 import { ISubNav } from '../SubNav/SubNav';
 
 const NAV_LINKS: ISubNav[] = [
-  { label: 'Home', href: '/' },
-  {
-    label: 'Transactions',
-    href: '/transactions',
-  },
-  {
-    label: 'Marketplace',
-    href: '/marketplace',
-  },
+    
   {
     label: 'Transfers',
     href: '/transfers',
@@ -47,10 +39,7 @@ const NAV_LINKS: ISubNav[] = [
       
     ],
   },
-  {
-    label: 'Mint',
-    href: '/mint',
-  }
+  
 ];
 
 export default NAV_LINKS;
