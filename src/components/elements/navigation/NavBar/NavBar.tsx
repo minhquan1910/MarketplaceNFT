@@ -30,9 +30,14 @@ const NavBar = () => {
                 Mint
               </Button>
             </Link>
+            <Link href="/staking" passHref>
+              <Button as="a" variant="ghost" aria-label="Staking" my="5" w="100%">
+                Staking
+              </Button>
+            </Link>
             <Link href="/balances/nft" passHref>
-              <Button as="a" variant="ghost" aria-label="Mint" my="5" w="100%">
-                My collection
+              <Button as="a" variant="ghost" aria-label="Staking" my="5" w="100%">
+                My Collection
               </Button>
             </Link>
           </Flex>
@@ -87,6 +92,11 @@ const NavBar = () => {
             <Link href="/mint" passHref>
               <Button as="a" variant="ghost" aria-label="Mint" my="5" w="100%">
                 Mint
+              </Button>
+            </Link>
+            <Link href="/staking" passHref>
+              <Button as="a" variant="ghost" aria-label="Staking" my="5" w="100%">
+                Staking
               </Button>
             </Link>
           </Flex>
