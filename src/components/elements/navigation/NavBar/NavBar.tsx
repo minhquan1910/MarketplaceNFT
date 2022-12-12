@@ -1,7 +1,6 @@
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { Button, Flex, HStack, IconButton } from '@chakra-ui/react';
-
-import NextLink from 'next/link';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const NavBar = () => {
@@ -11,35 +10,36 @@ const NavBar = () => {
       <Flex>
         <Flex>
           <Flex display={['none', 'none', 'flex', 'flex']}>
-            <NextLink href="/" passHref>
+            <Link href="/" passHref>
               <Button as="a" variant="ghost" aria-label="Home" my="5" w="100%">
                 Home
               </Button>
-            </NextLink>
-            <NextLink href="/transactions" passHref>
+            </Link>
+            <Link href="/transactions" passHref>
               <Button as="a" variant="ghost" aria-label="Transaction" my="5" w="100%">
                 Transaction
               </Button>
-            </NextLink>
-            <NextLink href="/marketplace" passHref>
+            </Link>
+            <Link href="/marketplace" passHref>
               <Button as="a" variant="ghost" aria-label="Marketplace" my="5" w="100%">
                 Marketplace
               </Button>
-            </NextLink>
-
-            {/* {NAV_LINKS.map((link) => (
-            <NavItem key={`link-${link.label}`} {...link} />
-            ))} */}
-            <NextLink href="/mint" passHref>
+            </Link>
+            <Link href="/mint" passHref>
               <Button as="a" variant="ghost" aria-label="Mint" my="5" w="100%">
                 Mint
               </Button>
-            </NextLink>
-            <NextLink href="/staking" passHref>
+            </Link>
+            <Link href="/staking" passHref>
               <Button as="a" variant="ghost" aria-label="Staking" my="5" w="100%">
                 Staking
               </Button>
-            </NextLink>
+            </Link>
+            <Link href="/balances/nft" passHref>
+              <Button as="a" variant="ghost" aria-label="Staking" my="5" w="100%">
+                My Collection
+              </Button>
+            </Link>
           </Flex>
           <IconButton
             aria-label="Open Menu"
@@ -74,38 +74,33 @@ const NavBar = () => {
             />
           </Flex>
           <Flex flexDir="column" align="center">
-            <NextLink href="/" passHref>
+            <Link href="/" passHref>
               <Button as="a" variant="ghost" aria-label="Home" my="5" w="100%">
                 Home
               </Button>
-            </NextLink>
-            <NextLink href="/transactions" passHref>
+            </Link>
+            <Link href="/transactions" passHref>
               <Button as="a" variant="ghost" aria-label="Transaction" my="5" w="100%">
                 Transaction
               </Button>
-            </NextLink>
-            <NextLink href="/marketplace" passHref>
+            </Link>
+            <Link href="/marketplace" passHref>
               <Button as="a" variant="ghost" aria-label="Marketplace" my="5" w="100%">
                 Marketplace
               </Button>
-            </NextLink>
-
-            {/* {NAV_LINKS.map((link) => (
-            <NavItem key={`link-${link.label}`} {...link} />
-            ))} */}
-            <NextLink href="/mint" passHref>
+            </Link>
+            <Link href="/mint" passHref>
               <Button as="a" variant="ghost" aria-label="Mint" my="5" w="100%">
                 Mint
               </Button>
-            </NextLink>
-            <NextLink href="/staking" passHref>
+            </Link>
+            <Link href="/staking" passHref>
               <Button as="a" variant="ghost" aria-label="Staking" my="5" w="100%">
                 Staking
               </Button>
-            </NextLink>
+            </Link>
           </Flex>
         </Flex>
-        {/* NavMenu */}
       </Flex>
     </HStack>
   );
