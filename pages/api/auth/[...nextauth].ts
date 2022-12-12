@@ -18,32 +18,19 @@ export default NextAuth({
     CredentialsProvider({
       name: 'MoralisAuth',
       credentials: {
-        message: {
-          label: 'Message',
+        address: {
+          label: 'address',
           type: 'text',
-          placeholder: '0x0',
-        },
-        signature: {
-          label: 'Signature',
-          type: 'text',
-          placeholder: '0x0',
+          placeholder: '',
         },
       },
       async authorize(credentials) {
         try {
-          const { message, signature } = credentials as { message: string; signature: string };
-
-          await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
-
-          const { address, profileId, expirationTime } = (
-            await Moralis.Auth.verify({ message, signature, network: 'evm' })
-          ).raw;
-
-          const user = { address, profileId, expirationTime, signature };
+          const { address } = credentials as { address: string };
+          const user = { address };
 
           return user;
         } catch (e) {
-          // eslint-disable-next-line no-console
           console.error(e);
           return null;
         }
@@ -52,12 +39,10 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // eslint-disable-next-line no-unused-expressions
       user && (token.user = user);
       return token;
     },
     async session({ session, token }) {
-      session.expires = (token as unknown as ISession).user.expirationTime;
       (session as unknown as ISession).user = (token as unknown as ISession).user;
       return session;
     },

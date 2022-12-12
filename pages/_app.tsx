@@ -8,15 +8,43 @@ import { publicProvider } from 'wagmi/providers/public';
 import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 
-const { provider, webSocketProvider } = configureChains(defaultChains, [publicProvider()]);
+import { InjectedConnector } from 'wagmi/connectors/injected';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import constants from '../constants';
+
+const { provider, webSocketProvider, chains } = configureChains([constants.CHAIN.bscChain], [publicProvider()]);
 const emotionCache = createCache({
   key: 'emotion-css-cache',
-  prepend: true, 
+  prepend: true,
 });
 const client = createClient({
   provider,
   webSocketProvider,
   autoConnect: true,
+  connectors: [
+    new MetaMaskConnector({ chains }),
+    new CoinbaseWalletConnector({
+      chains,
+      options: {
+        appName: 'wagmi',
+      },
+    }),
+    new WalletConnectConnector({
+      chains,
+      options: {
+        qrcode: true,
+      },
+    }),
+    new InjectedConnector({
+      chains,
+      options: {
+        name: 'Injected',
+        shimDisconnect: true,
+      },
+    }),
+  ],
 });
 
 const config = {
@@ -29,14 +57,13 @@ const theme = extendTheme({ config });
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <CacheProvider value={emotionCache}>
-
-    <ChakraProvider resetCSS theme={theme}>
-      <WagmiConfig client={client}>
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <Component {...pageProps} />
-        </SessionProvider>
-      </WagmiConfig>
-    </ChakraProvider>
+      <ChakraProvider resetCSS theme={theme}>
+        <WagmiConfig client={client}>
+          <SessionProvider session={pageProps.session} refetchInterval={0}>
+            <Component {...pageProps} />
+          </SessionProvider>
+        </WagmiConfig>
+      </ChakraProvider>
     </CacheProvider>
   );
 };
