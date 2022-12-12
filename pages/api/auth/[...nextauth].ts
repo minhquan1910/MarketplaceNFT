@@ -1,6 +1,5 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
 import NextAuth from 'next-auth';
-import Moralis from 'moralis';
 
 export type TUserData = {
   address: string;
@@ -39,7 +38,9 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      user && (token.user = user);
+      if (user) {
+        token.user = user;
+      }
       return token;
     },
     async session({ session, token }) {

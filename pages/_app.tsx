@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { createClient, configureChains, defaultChains, WagmiConfig } from 'wagmi';
+import { createClient, configureChains, WagmiConfig, defaultChains } from 'wagmi';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 
@@ -12,9 +12,8 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
-import constants from '../constants';
 
-const { provider, webSocketProvider, chains } = configureChains([constants.CHAIN.bscChain], [publicProvider()]);
+const { provider, webSocketProvider, chains } = configureChains(defaultChains, [publicProvider()]);
 const emotionCache = createCache({
   key: 'emotion-css-cache',
   prepend: true,

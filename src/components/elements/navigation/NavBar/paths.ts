@@ -46,6 +46,10 @@ const NAV_LINKS: ISubNav[] = [
       },
     ],
   },
+  {
+    label: 'Mint',
+    href: '/mint',
+  },
 ];
 
 export default NAV_LINKS;
